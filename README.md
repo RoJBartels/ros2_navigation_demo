@@ -119,11 +119,11 @@ The robot autonomously plans and follows a path to a user-defined goal using a p
 
 ### SLAM
 
-https://github.com/RoJBartels/ros2_navigation_demo/blob/main/SLAM.webm
+![SLAM Demo](media/SLAM.gif)
 
 ### Autonomous Navigation
 
-https://github.com/RoJBartels/ros2_navigation_demo/blob/main/Navigation.webm
+![Navigation Demo](media/Navigation.gif)
 
 ---
 

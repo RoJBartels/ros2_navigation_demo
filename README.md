@@ -9,71 +9,126 @@ The robot is capable of:
 * Building a map using SLAM
 * Localizing itself within the map
 * Planning a path to a target
-* Navigating autonomously
+* Navigating autonomously in a simulated environment
 
 ---
 
 ## Tech Stack
 
 * ROS2 (Humble)
-* TurtleBot3
-* Gazebo
+* TurtleBot3 (Mobile Robot Platform)
+* Gazebo (Simulation)
 * Cartographer (SLAM)
-* Nav2 (Navigation)
+* Nav2 (Autonomous Navigation)
 
 ---
 
-## Features
+## Prerequisites
 
-* 2D SLAM with Lidar
-* Occupancy grid map generation
-* Autonomous navigation using Nav2
-* Goal-based path planning
-
----
-
-## Demo
-
-(Add screenshots or video here)
+* Ubuntu 22.04
+* ROS2 Humble installed
 
 ---
 
 ## How to Run
 
-### 1. Start Simulation
+### 1. Set TurtleBot model
+
+```bash
+export TURTLEBOT3_MODEL=burger
+```
+
+---
+
+### 2. Start simulation
 
 ```bash
 ros2 launch turtlebot3_gazebo turtlebot3_world.launch.py
 ```
 
-### 2. Run SLAM
+---
+
+## Mapping (SLAM)
+
+### 3. Run SLAM
 
 ```bash
 ros2 launch turtlebot3_cartographer cartographer.launch.py use_sim_time:=true
 ```
 
-### 3. Save Map
+### 4. Drive the robot
+
+```bash
+ros2 run turtlebot3_teleop teleop_keyboard
+```
+
+Controls:
+
+* `w` → forward
+* `a / d` → rotate
+* `x` → stop
+
+### 5. Save map
 
 ```bash
 ros2 run nav2_map_server map_saver_cli -f ~/map
 ```
 
-### 4. Run Navigation
+---
+
+## Autonomous Navigation
+
+### 6. Launch navigation
 
 ```bash
-ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=true map:=<path_to_map.yaml>
+ros2 launch turtlebot3_navigation2 navigation2.launch.py use_sim_time:=true map:=$HOME/map.yaml
 ```
+
+### 7. Set initial pose
+
+In RViz:
+
+* Click **"2D Pose Estimate"**
+* Set the robot position and orientation
+
+### 8. Send navigation goal
+
+In RViz:
+
+* Click **"Nav2 Goal"**
+* Select a target location
 
 ---
 
 ## Result
 
-The robot successfully navigates autonomously to user-defined goals in a simulated environment.
+The robot autonomously plans and follows a path to a user-defined goal using a previously generated map.
+
+---
+
+## Project Highlights
+
+* Full SLAM → Navigation pipeline implemented
+* Real-time mapping using Lidar data
+* Autonomous goal-based navigation
+* Built and tested in a ROS2 simulation environment
+
+---
+
+## Demo
+
+### SLAM
+
+https://github.com/RoJBartels/ros2_navigation_demo/blob/main/SLAM.webm
+
+### Autonomous Navigation
+
+https://github.com/RoJBartels/ros2_navigation_demo/blob/main/Navigation.webm
 
 ---
 
 ## Future Improvements
 
-* Real robot deployment
-* Obstacle avoidance tuning
-* Multi-room mapping
+* Dynamic obstacle avoidance tuning
+* Deployment on a real robot
+* Custom ROS2 nodes for extended functionality
